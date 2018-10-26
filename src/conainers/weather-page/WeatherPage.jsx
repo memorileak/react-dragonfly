@@ -3,11 +3,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import {withStyles} from '@material-ui/core/styles'
-import './WeatherPage.css';
 import CurrentWeather from "./current-weather/CurrentWeather";
+import LocationList from "./location-list/LocationList";
+import './WeatherPage.css';
 
 const TABS_HEIGHT = 50;
-const SLIDE_HEIGHT = window.innerHeight - TABS_HEIGHT;
+const SEARCH_BAR_HEIGHT = 60;
+const SLIDE_HEIGHT = window.innerHeight - TABS_HEIGHT - SEARCH_BAR_HEIGHT;
 
 const TABS_STYLES = {
     tabsRootStyle: {
@@ -19,8 +21,8 @@ const TABS_STYLES = {
     },
     indicatorStyle: {
         backgroundColor: 'white',
-        height: 4,
-        borderRadius: 2
+        height: 1,
+        borderRadius: 1
     },
     tabLabelStyle: {
         fontWeight: 'bold',
@@ -30,8 +32,8 @@ const TABS_STYLES = {
 const SLIDE_STYLES = {
     slide: {
         padding: 15,
-        height: window.innerHeight - TABS_HEIGHT,
-        color: '#fff',
+        height: SLIDE_HEIGHT,
+        color: 'white',
     },
 };
 
@@ -40,10 +42,12 @@ class WeatherPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTabIndex: 0
+            activeTabIndex: 0,
+            showLocationList: false,
         };
         this._handleSwipeChangeIndex = this._handleSwipeChangeIndex.bind(this);
         this._handleTabChangeIndex = this._handleTabChangeIndex.bind(this);
+        this._handleToggleSearch = this._handleToggleSearch.bind(this);
     };
 
     _handleSwipeChangeIndex(index) {
@@ -58,18 +62,48 @@ class WeatherPage extends Component {
         });
     }
 
-    _renderSwipeableViews() {
-        const {activeTabIndex} = this.state;
+    _handleToggleSearch(status) {
+        return () => {
+            this.setState({
+                showLocationList: status
+            });
+        };
+    };
+
+    _renderSearchbar() {
         return (
-            <SwipeableViews
-                index={activeTabIndex}
-                onChangeIndex={this._handleSwipeChangeIndex}
+            <div
+                id="place-search-bar"
+                style={{
+                    height: SEARCH_BAR_HEIGHT
+                }}
             >
-                <CurrentWeather
-                    height={SLIDE_HEIGHT}
+                <input
+                    id="place-search"
+                    onFocus={this._handleToggleSearch(true)}
+                    onBlur={this._handleToggleSearch(false)}
                 />
-                <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
-            </SwipeableViews>
+            </div>
+        );
+    };
+
+    _renderWeatherContent() {
+        const {activeTabIndex, showLocationList} = this.state;
+        return (
+            <div id="weather-page-content">
+                <LocationList
+                    show={showLocationList}
+                />
+                <SwipeableViews
+                    index={activeTabIndex}
+                    onChangeIndex={this._handleSwipeChangeIndex}
+                >
+                    <CurrentWeather
+                        height={SLIDE_HEIGHT}
+                    />
+                    <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
+                </SwipeableViews>
+            </div>
         );
     };
 
@@ -87,14 +121,14 @@ class WeatherPage extends Component {
                 onChange={this._handleTabChangeIndex}
             >
                 <Tab
-                    label="Current"
+                    label="Current weather"
                     classes={{
                         root: classes.tabRootStyle,
                         label: classes.tabLabelStyle
                     }}
                 />
                 <Tab
-                    label="5 days forecast"
+                    label="5-day forecast"
                     classes={{
                         root: classes.tabRootStyle,
                         label: classes.tabLabelStyle
@@ -112,7 +146,8 @@ class WeatherPage extends Component {
                     height: window.innerHeight
                 }}
             >
-                {this._renderSwipeableViews()}
+                {this._renderSearchbar()}
+                {this._renderWeatherContent()}
                 {this._renderTabs()}
             </div>
         );

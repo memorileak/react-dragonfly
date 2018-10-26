@@ -33,7 +33,10 @@ class CurrentWeather extends  React.Component {
 };
 
 CurrentWeather.propTypes = {
-    height: PropTypes.number.isRequired
+    height: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired,
 };
 
 export default CurrentWeather;

@@ -1,6 +1,13 @@
+:root {
+    --light-blue: #70a8da;
+    --blue: #4e93d2;
+}
 body {
-    background-color: #2196f3;
+    background-color: var(--light-blue, white);
 }
 body * {
     box-sizing: border-box;
+}
+.hide {
+    display: none;
 }

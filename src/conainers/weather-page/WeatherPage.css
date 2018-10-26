@@ -3,7 +3,7 @@
     grid-template-rows: 60px auto 50px;
 }
 #place-search-bar {
-    /*padding: 20px 15px 0;*/
+    height: 100%;
 }
 #place-search {
     width: calc(100% - 30px);
@@ -17,8 +17,9 @@
     font-size: 17px;
     color: white;
     transition-duration: .2s;
+    transition-timing-function: ease-in-out;
 }
-#place-search:focus {
+#place-search.active {
     outline: none;
     width: 100%;
     margin: 0;

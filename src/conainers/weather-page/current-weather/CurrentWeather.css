@@ -1,0 +1,15 @@
+#cw-temperature {
+    text-align: center;
+    color: white;
+    padding-top: 100px;
+}
+#cw-temperature #temperature-value{
+    font-size: 70px;
+}
+#cw-temperature #unit{
+    /*font-size: 70px;*/
+}
+#cw-city {
+    text-align: center;
+    color: white;
+}

@@ -7,6 +7,7 @@ import CurrentWeather from "./current-weather/CurrentWeather";
 import LocationList from "./location-list/LocationList";
 import PlacesApi from '../../apis/PlacesApi';
 import {TABS_STYLES, SLIDE_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
+import '@fortawesome/fontawesome-free';
 import './WeatherPage.css';
 
 class WeatherPage extends Component {
@@ -22,6 +23,7 @@ class WeatherPage extends Component {
         this._handleTabChangeIndex = this._handleTabChangeIndex.bind(this);
         this._handleToggleSearch = this._handleToggleSearch.bind(this);
         this._handleSearchChange = this._handleSearchChange.bind(this);
+        this._handleSearchCancel = this._handleSearchCancel.bind(this);
     };
 
     _handleSwipeChangeIndex(index) {
@@ -60,11 +62,28 @@ class WeatherPage extends Component {
         };
     };
 
+    _handleSearchCancel() {
+        const queryString = this.placeQuery.value;
+        if (queryString) {
+            this.placeQuery.value = "";
+            this.placeQuery.focus();
+            this.setState({
+                placePredictions: []
+            })
+        } else {
+            this.setState({
+                showLocationList: false,
+                placePredictions: []
+            })
+        };
+    };
+
     _renderSearchbar() {
         const {showLocationList} = this.state;
         return (
             <div
                 id="place-search-bar"
+                className={showLocationList ? 'active' : ''}
             >
                 <input
                     id="place-search"
@@ -73,6 +92,16 @@ class WeatherPage extends Component {
                     onChange={this._handleSearchChange}
                     ref={(thisEl) => {this.placeQuery = thisEl}}
                 />
+                {
+                    showLocationList
+                    ? (
+                        <span
+                            id="place-search-delete"
+                            className="fas fa-times animated fadeIn"
+                            onClick={this._handleSearchCancel}
+                        />
+                    ) : null
+                }
             </div>
         );
     };

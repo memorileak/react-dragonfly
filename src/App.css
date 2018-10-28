@@ -2,11 +2,36 @@
     --light-blue: #70a8da;
     --blue: #4e93d2;
 }
+@font-face {
+    font-family: 'Open Sans';
+    src: url('./assets/fonts/Open_Sans/OpenSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('./assets/fonts/Open_Sans/OpenSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('./assets/fonts/Open_Sans/OpenSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('./assets/fonts/Open_Sans/OpenSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
 body {
     background-color: var(--light-blue, white);
 }
 body * {
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 .hide {
     display: none;

@@ -148,7 +148,7 @@ class WeatherPage extends Component {
                 style={{height: SLIDE_HEIGHT}}
             >
                 <CurrentWeather
-                    height="100%"
+                    height={SLIDE_HEIGHT}
                 />
                 <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
             </SwipeableViews>

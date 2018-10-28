@@ -24,11 +24,17 @@ class LocationList extends  React.Component {
         this._handleOutsideClick = this._handleOutsideClick.bind(this);
     };
 
-    _handleItemClick(e) {
-        e.stopPropagation();
-        setTimeout(() => {
-            this.props.onItemClick();
-        }, 200);
+    _handleItemClick(locationId) {
+        return (e) => {
+            e.stopPropagation();
+            const {locations} = this.props;
+            const location = locations.find((location) => (
+                location.id === locationId
+            ));
+            setTimeout(() => {
+                this.props.onItemClick(location);
+            }, 200);
+        };
     };
 
     _handleOutsideClick() {
@@ -58,7 +64,7 @@ class LocationList extends  React.Component {
                                             <ListItem
                                                 button
                                                 key={location.id}
-                                                onClick={this._handleItemClick}
+                                                onClick={this._handleItemClick(location.id)}
                                             >
                                                 <ListItemText
                                                     primary={location.structured_formatting.main_text}

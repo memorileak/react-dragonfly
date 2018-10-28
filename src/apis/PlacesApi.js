@@ -18,7 +18,7 @@ module.exports = (function() {
         },
         getCoordsThroughGeocoding: function(placeId, onDone) {
             const query = {
-                place_id: placeId
+                placeId: placeId
             };
             geocoder.geocode(query, function(results, status) {
                 if (status === 'OK' && Array.isArray(results) && results.length > 0) {

@@ -24,6 +24,7 @@ class WeatherPage extends Component {
         this._handleToggleSearch = this._handleToggleSearch.bind(this);
         this._handleSearchChange = this._handleSearchChange.bind(this);
         this._handleSearchCancel = this._handleSearchCancel.bind(this);
+        this._handlePlaceSelected = this._handlePlaceSelected.bind(this);
     };
 
     _handleSwipeChangeIndex(index) {
@@ -50,7 +51,6 @@ class WeatherPage extends Component {
         const queryString = this.placeQuery.value;
         if (queryString) {
             PlacesApi.getPlacePredictions(queryString, (placePredictions) => {
-                // console.log(placePredictions);
                 this.setState({
                     placePredictions: placePredictions
                 })
@@ -78,6 +78,16 @@ class WeatherPage extends Component {
         };
     };
 
+    _handlePlaceSelected(place) {
+        this.placeQuery.value = place.structured_formatting.main_text;
+        PlacesApi.getCoordsThroughGeocoding(place.place_id, (coords) => {
+            console.log(coords);
+        });
+        this.setState({
+            showLocationList: false
+        });
+    };
+
     _renderSearchbar() {
         const {showLocationList} = this.state;
         return (
@@ -88,6 +98,7 @@ class WeatherPage extends Component {
                 <input
                     id="place-search"
                     className={showLocationList ? 'active' : ''}
+                    placeholder="Search city"
                     onFocus={this._handleToggleSearch(true)}
                     onChange={this._handleSearchChange}
                     ref={(thisEl) => {this.placeQuery = thisEl}}
@@ -100,33 +111,47 @@ class WeatherPage extends Component {
                             className="fas fa-times animated fadeIn"
                             onClick={this._handleSearchCancel}
                         />
-                    ) : null
+                    ) : (
+                        <span
+                            id="place-search-lookup"
+                            className="fas fa-search animated fadeIn"
+                            onClick={() => {this.placeQuery.focus()}}
+                        />
+                    )
                 }
             </div>
         );
     };
 
-    _renderWeatherContent() {
-        const {activeTabIndex, showLocationList, placePredictions} = this.state;
+    _renderContent() {
+        const {showLocationList, placePredictions} = this.state;
         return (
             <div id="weather-page-content">
                 <LocationList
                     show={showLocationList}
                     locations={placePredictions}
-                    onItemClick={this._handleToggleSearch(false)}
+                    onItemClick={this._handlePlaceSelected}
                     onOutsideClick={this._handleToggleSearch(false)}
                 />
-                <SwipeableViews
-                    index={activeTabIndex}
-                    onChangeIndex={this._handleSwipeChangeIndex}
-                    style={{height: SLIDE_HEIGHT}}
-                >
-                    <CurrentWeather
-                        height="100%"
-                    />
-                    <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
-                </SwipeableViews>
+                {this._renderWeatherContent()}
+                {this._renderTabs()}
             </div>
+        );
+    };
+
+    _renderWeatherContent() {
+        const {activeTabIndex} = this.state;
+        return (
+            <SwipeableViews
+                index={activeTabIndex}
+                onChangeIndex={this._handleSwipeChangeIndex}
+                style={{height: SLIDE_HEIGHT}}
+            >
+                <CurrentWeather
+                    height="100%"
+                />
+                <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
+            </SwipeableViews>
         );
     };
 
@@ -170,8 +195,7 @@ class WeatherPage extends Component {
                 }}
             >
                 {this._renderSearchbar()}
-                {this._renderWeatherContent()}
-                {this._renderTabs()}
+                {this._renderContent()}
             </div>
         );
     }

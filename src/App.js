@@ -1,13 +1,29 @@
 import React, {Component} from 'react';
 import './App.css';
 import './assets/index';
+import {Offline, Online} from 'react-detect-offline';
 import WeatherPage from "./conainers/weather-page/WeatherPage";
 
 class App extends Component {
 
     render() {
         return (
-            <WeatherPage />
+            <React.Fragment>
+                <Offline>
+                    <div id="app-offline">
+                        <i className="fas fa-exclamation-circle" />
+                        <div className="app-offline-status">
+                            &nbsp;You are offline right now!
+                        </div>
+                        <div className="app-offline-status">
+                            Please check your network connection.
+                        </div>
+                    </div>
+                </Offline>
+                <Online>
+                    <WeatherPage />
+                </Online>
+            </React.Fragment>
         );
     };
 }

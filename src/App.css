@@ -39,3 +39,17 @@ body * {
 .text-center {
     text-align: center;
 }
+#app-offline {
+    margin-top: 200px;
+    height: 100%;
+    color: white;
+    text-align: center;
+}
+#app-offline > i {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+.app-offline-status {
+    text-align: center;
+    font-size: 15px;
+}

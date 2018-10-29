@@ -5,13 +5,16 @@
 .cw-panel {
     margin: 0 15px;
 }
-.cw-panel:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
 #cw-panel1 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#cw-panel2 {
+    background: var(--blue);
+    border-radius: 15px;
+    display: grid;
+    grid-template-rows: auto auto auto;
 }
 #cw-temperature {
     color: white;
@@ -23,7 +26,7 @@
     font-size: 80px;
     font-weight: 300;
 }
-#cw-temperature > *{
+#cw-temperature > * {
     line-height: 1;
 }
 #cw-temperature #unit {
@@ -52,6 +55,8 @@
     max-width: 120px;
 }
 #cw-detail-info {
+    grid-row-start: 2;
+    grid-row-end: 3;
     display: grid;
     grid-template-columns: 15% 85%;
 }

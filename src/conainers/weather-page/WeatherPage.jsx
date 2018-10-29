@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
-import {withStyles} from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles';
+import SearchBarButton from '../../commons/SearchBarButton';
 import CurrentWeather from "./current-weather/CurrentWeather";
 import LocationList from "./location-list/LocationList";
 import PlacesApi from '../../apis/PlacesApi';
@@ -112,11 +113,20 @@ class WeatherPage extends Component {
                             onClick={this._handleSearchCancel}
                         />
                     ) : (
-                        <span
-                            id="place-search-lookup"
-                            className="fas fa-search animated fadeIn"
-                            onClick={() => {this.placeQuery.focus()}}
-                        />
+                        <React.Fragment>
+                            <span
+                                id="place-search-lookup"
+                                className="fas fa-search animated fadeIn"
+                                onClick={() => {this.placeQuery.focus()}}
+                            />
+                            <SearchBarButton>
+                                <span
+                                    id="place-current-position"
+                                    className="fas fa-crosshairs animated fadeIn"
+                                    // onClick={() => {this.placeQuery.focus()}}
+                                />
+                            </SearchBarButton>
+                        </React.Fragment>
                     )
                 }
             </div>

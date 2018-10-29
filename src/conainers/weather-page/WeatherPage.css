@@ -12,12 +12,12 @@
     background-color: var(--blue);
 }
 #place-search {
-    width: calc(100% - 30px);
+    width: calc(100% - 60px);
     margin: 15px 15px ;
     height: 30px;
     background-color: var(--blue);
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     color: white;
     padding: 0px 31px;
     font-size: 15px;
@@ -44,6 +44,13 @@
     position: absolute;
     left: 23px;
     top: calc(50% - 8px);
+}
+#place-current-position {
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #place-search-delete {
     color: white;

@@ -1,7 +1,7 @@
 module.exports = (function() {
-    const PlacesServiceStatus = window.google.maps.places.PlacesServiceStatus;
-    const geocoder = new window.google.maps.Geocoder();
-    const autocompleteService = new window.google.maps.places.AutocompleteService();
+    const PlacesServiceStatus = window.google ? window.google.maps.places.PlacesServiceStatus : {};
+    const geocoder = window.google ? new window.google.maps.Geocoder() : {};
+    const autocompleteService = window.google ? new window.google.maps.places.AutocompleteService() : {};
     return {
         getPlacePredictions: function(queryString, onDone) {
             const query = {

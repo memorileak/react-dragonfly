@@ -1,6 +1,6 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import CurrentPositionButton from "../../../commons/CurrentPositionButton";
+import CurrentPositionButton from "./current-position-button/CurrentPositionButton";
 import './SearchBar.css';
 
 class SearchBar extends React.Component {

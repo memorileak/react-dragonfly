@@ -1,28 +1,64 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import WeatherService from '../../../services/WeatherService';
+import {WEATHER_ICONS} from '../../../constants/WeatherIcon';
 import './CurrentWeather.css';
 
 class CurrentWeather extends  React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null
+        };
+    };
+
+    componentDidMount() {
+        const {active, longitude, latitude} = this.props;
+        if (active && longitude && latitude) {
+            WeatherService.getCurrentWeather({longitude, latitude}, (data) => {
+                this.setState({data});
+            });
+        }
+    };
+
+    componentDidUpdate(prevProps) {
+        const {active, longitude, latitude} = this.props;
+        if (
+            active && (
+                prevProps.active !== active
+                || prevProps.longitude !== longitude
+                || prevProps.latitude !== latitude
+            )
+        ) {
+            WeatherService.getCurrentWeather({longitude, latitude}, (data) => {
+                this.setState({data});
+            });
+        }
+    };
+
     _renderTemerature() {
+        const {data} = this.state;
         return (
             <div id="cw-temperature">
-                <span id="temperature-value">24</span>
+                <span id="temperature-value">{Math.round(data.main.temp)}</span>
                 <span id="unit">&#x2103;</span>
             </div>
         );
     };
 
     _renderStatusAndCity() {
+        const {data} = this.state;
         return (
             <div id="cw-status-city">
-                <i id="cw-weather-icon" className="wi wi-day-cloudy" />
-                <span id="cw-city-name">Ho chi minh City</span>
+                <i id="cw-weather-icon" className={`wi ${WEATHER_ICONS[data.weather[0].icon]}`} />
+                <span id="cw-city-name">{data.name}</span>
             </div>
         );
     };
 
     _renderInformations() {
+        const {data} = this.state;
         return (
             <div id="cw-detail-info">
                 <div id="cw-info-container">
@@ -31,7 +67,7 @@ class CurrentWeather extends  React.Component {
                             Sky:
                         </div>
                         <div className="cw-info-value">
-                            Cloudy
+                            {data.weather[0].description}
                         </div>
                     </div>
                     <div className="cw-info">
@@ -39,7 +75,7 @@ class CurrentWeather extends  React.Component {
                             Wind speed:
                         </div>
                         <div className="cw-info-value">
-                             3.5 km/h
+                             {data.wind.speed} m/s
                         </div>
                     </div>
                     <div className="cw-info">
@@ -47,7 +83,7 @@ class CurrentWeather extends  React.Component {
                             Cloudiness:
                         </div>
                         <div className="cw-info-value">
-                             78%
+                            {data.clouds.all}%
                         </div>
                     </div>
                     <div className="cw-info">
@@ -55,7 +91,7 @@ class CurrentWeather extends  React.Component {
                             Humidity:
                         </div>
                         <div className="cw-info-value">
-                             82%
+                             {data.main.humidity}%
                         </div>
                     </div>
                     <div className="cw-info">
@@ -63,7 +99,7 @@ class CurrentWeather extends  React.Component {
                             Pressure:
                         </div>
                         <div className="cw-info-value">
-                             1018 hPa
+                             {data.main.pressure} hPa
                         </div>
                     </div>
                 </div>
@@ -72,32 +108,46 @@ class CurrentWeather extends  React.Component {
     };
 
     render() {
-        return (
-            <div
-                id="cw-body"
-                style={{height: this.props.height}}
-                className="animated fadeIn"
-            >
-                <div id="cw-panel1" className="cw-panel">
-                    <div>
-                        {this._renderTemerature()}
-                        {this._renderStatusAndCity()}
+        const {data} = this.state;
+        if (data) {
+            return (
+                <div
+                    id="cw-body"
+                    style={{height: this.props.height}}
+                    className="animated fadeIn"
+                >
+                    <div id="cw-panel1" className="cw-panel">
+                        <div>
+                            {this._renderTemerature()}
+                            {this._renderStatusAndCity()}
+                        </div>
+                    </div>
+                    <div id="cw-panel2" className="cw-panel">
+                        {this._renderInformations()}
                     </div>
                 </div>
-                <div id="cw-panel2" className="cw-panel">
-                    {this._renderInformations()}
-                </div>
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     };
 
 };
 
 CurrentWeather.propTypes = {
+    active: PropTypes.bool.isRequired,
     height: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]).isRequired,
+    longitude: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
+    latitude: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
 };
 
 export default CurrentWeather;

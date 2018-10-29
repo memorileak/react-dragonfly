@@ -33,6 +33,12 @@ class WeatherPage extends Component {
         this._handlePlaceSelected = this._handlePlaceSelected.bind(this);
     };
 
+    componentDidMount() {
+        PlacesApi.getCoordsOfCurrentPosition((coords) => {
+            this.setState({coords})
+        });
+    };
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchKey !== this.state.searchKey) {
             if (this.state.searchKey) {
@@ -81,7 +87,6 @@ class WeatherPage extends Component {
 
     _handleCurrentPositionClick() {
         PlacesApi.getCoordsOfCurrentPosition((coords) => {
-            console.log(coords);
             this.setState({coords})
         });
     };
@@ -94,7 +99,6 @@ class WeatherPage extends Component {
 
     _handlePlaceSelected(place) {
         PlacesApi.getCoordsThroughGeocoding(place.place_id, (coords) => {
-            console.log(coords);
             this.setState({coords})
         });
         this.setState({
@@ -134,7 +138,7 @@ class WeatherPage extends Component {
     };
 
     _renderWeatherContent() {
-        const {activeTabIndex} = this.state;
+        const {activeTabIndex, coords} = this.state;
         return (
             <SwipeableViews
                 index={activeTabIndex}
@@ -143,6 +147,9 @@ class WeatherPage extends Component {
             >
                 <CurrentWeather
                     height={SLIDE_HEIGHT}
+                    active={activeTabIndex === 0}
+                    longitude={coords.longitude}
+                    latitude={coords.latitude}
                 />
                 <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
             </SwipeableViews>

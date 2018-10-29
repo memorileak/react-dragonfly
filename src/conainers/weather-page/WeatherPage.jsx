@@ -3,9 +3,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import {withStyles} from '@material-ui/core/styles';
-import SearchBarButton from '../../commons/SearchBarButton';
+import CurrentPositionButton from '../../commons/CurrentPositionButton';
 import CurrentWeather from "./current-weather/CurrentWeather";
-import LocationList from "./location-list/LocationList";
+import PlacesList from "./places-list/PlacesList";
 import PlacesApi from '../../apis/PlacesApi';
 import {TABS_STYLES, SLIDE_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
 import '@fortawesome/fontawesome-free';
@@ -17,7 +17,7 @@ class WeatherPage extends Component {
         super(props);
         this.state = {
             activeTabIndex: 0,
-            showLocationList: false,
+            showPlacesList: false,
             placePredictions: [],
         };
         this._handleSwipeChangeIndex = this._handleSwipeChangeIndex.bind(this);
@@ -43,7 +43,7 @@ class WeatherPage extends Component {
     _handleToggleSearch(status) {
         return () => {
             this.setState({
-                showLocationList: status
+                showPlacesList: status
             });
         };
     };
@@ -73,7 +73,7 @@ class WeatherPage extends Component {
             })
         } else {
             this.setState({
-                showLocationList: false,
+                showPlacesList: false,
                 placePredictions: []
             })
         };
@@ -85,27 +85,27 @@ class WeatherPage extends Component {
             console.log(coords);
         });
         this.setState({
-            showLocationList: false
+            showPlacesList: false
         });
     };
 
     _renderSearchbar() {
-        const {showLocationList} = this.state;
+        const {showPlacesList} = this.state;
         return (
             <div
                 id="place-search-bar"
-                className={showLocationList ? 'active' : ''}
+                className={showPlacesList ? 'active' : ''}
             >
                 <input
                     id="place-search"
-                    className={showLocationList ? 'active' : ''}
+                    className={showPlacesList ? 'active' : ''}
                     placeholder="Search city"
                     onFocus={this._handleToggleSearch(true)}
                     onChange={this._handleSearchChange}
                     ref={(thisEl) => {this.placeQuery = thisEl}}
                 />
                 {
-                    showLocationList
+                    showPlacesList
                     ? (
                         <span
                             id="place-search-delete"
@@ -119,13 +119,13 @@ class WeatherPage extends Component {
                                 className="fas fa-search animated fadeIn"
                                 onClick={() => {this.placeQuery.focus()}}
                             />
-                            <SearchBarButton>
+                            <CurrentPositionButton>
                                 <span
                                     id="place-current-position"
                                     className="fas fa-crosshairs animated fadeIn"
                                     // onClick={() => {this.placeQuery.focus()}}
                                 />
-                            </SearchBarButton>
+                            </CurrentPositionButton>
                         </React.Fragment>
                     )
                 }
@@ -134,12 +134,12 @@ class WeatherPage extends Component {
     };
 
     _renderContent() {
-        const {showLocationList, placePredictions} = this.state;
+        const {showPlacesList, placePredictions} = this.state;
         return (
             <div id="weather-page-content">
-                <LocationList
-                    show={showLocationList}
-                    locations={placePredictions}
+                <PlacesList
+                    show={showPlacesList}
+                    places={placePredictions}
                     onItemClick={this._handlePlaceSelected}
                     onOutsideClick={this._handleToggleSearch(false)}
                 />

@@ -17,7 +17,7 @@ const BTN_STYLES = {
     },
 };
 
-class SearchBarButton extends React.Component {
+class CurrentPositionButton extends React.Component {
 
     render() {
         const {classes, children} = this.props;
@@ -32,8 +32,8 @@ class SearchBarButton extends React.Component {
 
 };
 
-SearchBarButton.propTypes = {
+CurrentPositionButton.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(BTN_STYLES)(SearchBarButton);
+export default withStyles(BTN_STYLES)(CurrentPositionButton);

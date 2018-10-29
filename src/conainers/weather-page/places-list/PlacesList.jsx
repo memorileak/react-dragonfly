@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import poweredByGoogle from '../../../assets/images/powered_by_google_on_white.png';
 
-import './LocationList.css';
+import './PlacesList.css';
 
 const styles = {
     root: {
@@ -16,7 +16,7 @@ const styles = {
     },
 };
 
-class LocationList extends  React.Component {
+class PlacesList extends  React.Component {
 
     constructor(props) {
         super(props);
@@ -24,15 +24,15 @@ class LocationList extends  React.Component {
         this._handleOutsideClick = this._handleOutsideClick.bind(this);
     };
 
-    _handleItemClick(locationId) {
+    _handleItemClick(placeId) {
         return (e) => {
             e.stopPropagation();
-            const {locations} = this.props;
-            const location = locations.find((location) => (
-                location.id === locationId
+            const {places} = this.props;
+            const place = places.find((place) => (
+                place.id === placeId
             ));
             setTimeout(() => {
-                this.props.onItemClick(location);
+                this.props.onItemClick(place);
             }, 200);
         };
     };
@@ -42,10 +42,10 @@ class LocationList extends  React.Component {
     };
 
     render() {
-        const {classes, show, locations} = this.props;
+        const {classes, show, places} = this.props;
         return (
             <div
-                id="location-list-container"
+                id="places-list-container"
                 className={
                     show
                     ? 'animated fadeIn'
@@ -56,19 +56,19 @@ class LocationList extends  React.Component {
                 <div className={classes.root}>
                     <List component="nav">
                         {
-                            Array.isArray(locations) && locations.length > 0
+                            Array.isArray(places) && places.length > 0
                             ? (
                                 <React.Fragment>
                                     {
-                                        locations.map((location) => (
+                                        places.map((place) => (
                                             <ListItem
                                                 button
-                                                key={location.id}
-                                                onClick={this._handleItemClick(location.id)}
+                                                key={place.id}
+                                                onClick={this._handleItemClick(place.id)}
                                             >
                                                 <ListItemText
-                                                    primary={location.structured_formatting.main_text}
-                                                    secondary={location.structured_formatting.secondary_text}
+                                                    primary={place.structured_formatting.main_text}
+                                                    secondary={place.structured_formatting.secondary_text}
                                                 />
                                             </ListItem>
                                         ))
@@ -110,11 +110,11 @@ class LocationList extends  React.Component {
 
 };
 
-LocationList.propTypes = {
+PlacesList.propTypes = {
     show: PropTypes.bool.isRequired,
-    locations: PropTypes.array,
+    places: PropTypes.array,
     onItemClick: PropTypes.func,
     onOutsideClick: PropTypes.func
 };
 
-export default withStyles(styles)(LocationList);
+export default withStyles(styles)(PlacesList);

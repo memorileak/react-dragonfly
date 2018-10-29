@@ -35,7 +35,7 @@ class WeatherPage extends Component {
 
     componentDidMount() {
         PlacesApi.getCoordsOfCurrentPosition((coords) => {
-            this.setState({coords})
+            this.setState({coords});
         });
     };
 

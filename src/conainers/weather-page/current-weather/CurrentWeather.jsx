@@ -25,7 +25,7 @@ class CurrentWeather extends  React.Component {
     componentDidUpdate(prevProps) {
         const {active, longitude, latitude} = this.props;
         if (
-            active && (
+            active && longitude && latitude && (
                 prevProps.active !== active
                 || prevProps.longitude !== longitude
                 || prevProps.latitude !== latitude

@@ -35,5 +35,22 @@ module.exports = (function() {
                 }
             });
         },
+        getCoordsOfCurrentPosition: function(onDone) {
+            window.navigator.geolocation.getCurrentPosition(
+                function(data) {
+                    onDone({
+                        longitude: data.coords.longitude,
+                        latitude: data.coords.latitude
+                    });
+                },
+                function(err) {
+                    console.error(err);
+                    onDone({
+                        longitude: null,
+                        latitude: null
+                    });
+                }
+            );
+        },
     };
 })();

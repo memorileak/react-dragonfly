@@ -3,29 +3,50 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import {withStyles} from '@material-ui/core/styles';
-import CurrentPositionButton from '../../commons/CurrentPositionButton';
 import CurrentWeather from "./current-weather/CurrentWeather";
 import PlacesList from "./places-list/PlacesList";
 import PlacesApi from '../../apis/PlacesApi';
 import {TABS_STYLES, SLIDE_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
 import '@fortawesome/fontawesome-free';
 import './WeatherPage.css';
+import SearchBar from "./search-bar/SearchBar";
 
 class WeatherPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             activeTabIndex: 0,
+            searchKey: '',
             showPlacesList: false,
             placePredictions: [],
+            coords: {},
         };
         this._handleSwipeChangeIndex = this._handleSwipeChangeIndex.bind(this);
         this._handleTabChangeIndex = this._handleTabChangeIndex.bind(this);
-        this._handleToggleSearch = this._handleToggleSearch.bind(this);
+        this._handleSearchToggle = this._handleSearchToggle.bind(this);
         this._handleSearchChange = this._handleSearchChange.bind(this);
-        this._handleSearchCancel = this._handleSearchCancel.bind(this);
+        this._handleSearchClear = this._handleSearchClear.bind(this);
+        this._handleCurrentPositionClick = this._handleCurrentPositionClick.bind(this);
+        this._handlePlaceListOutsideClick = this._handlePlaceListOutsideClick.bind(this);
         this._handlePlaceSelected = this._handlePlaceSelected.bind(this);
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.searchKey !== this.state.searchKey) {
+            if (this.state.searchKey) {
+                PlacesApi.getPlacePredictions(this.state.searchKey, (placePredictions) => {
+                    this.setState({
+                        placePredictions: placePredictions
+                    })
+                });
+            } else {
+                this.setState({
+                    placePredictions: []
+                });
+            }
+        }
     };
 
     _handleSwipeChangeIndex(index) {
@@ -40,96 +61,59 @@ class WeatherPage extends Component {
         });
     }
 
-    _handleToggleSearch(status) {
-        return () => {
-            this.setState({
-                showPlacesList: status
-            });
-        };
-    };
-
-    _handleSearchChange() {
-        const queryString = this.placeQuery.value;
-        if (queryString) {
-            PlacesApi.getPlacePredictions(queryString, (placePredictions) => {
-                this.setState({
-                    placePredictions: placePredictions
-                })
-            });
-        } else {
-            this.setState({
-                placePredictions: []
-            })
-        };
-    };
-
-    _handleSearchCancel() {
-        const queryString = this.placeQuery.value;
-        if (queryString) {
-            this.placeQuery.value = "";
-            this.placeQuery.focus();
-            this.setState({
-                placePredictions: []
-            })
-        } else {
-            this.setState({
-                showPlacesList: false,
-                placePredictions: []
-            })
-        };
-    };
-
-    _handlePlaceSelected(place) {
-        this.placeQuery.value = place.structured_formatting.main_text;
-        PlacesApi.getCoordsThroughGeocoding(place.place_id, (coords) => {
-            console.log(coords);
+    _handleSearchToggle(status) {
+        this.setState({
+            showPlacesList: status
         });
+    };
+
+    _handleSearchChange(queryString) {
+        this.setState({
+            searchKey: queryString
+        });
+    };
+
+    _handleSearchClear() {
+        this.setState({
+            searchKey: '',
+        });
+    };
+
+    _handleCurrentPositionClick() {
+        PlacesApi.getCoordsOfCurrentPosition((coords) => {
+            console.log(coords);
+            this.setState({coords})
+        });
+    };
+
+    _handlePlaceListOutsideClick() {
         this.setState({
             showPlacesList: false
         });
     };
 
+    _handlePlaceSelected(place) {
+        PlacesApi.getCoordsThroughGeocoding(place.place_id, (coords) => {
+            console.log(coords);
+            this.setState({coords})
+        });
+        this.setState({
+            searchKey: place.structured_formatting.main_text,
+            showPlacesList: false
+        });
+    };
+
     _renderSearchbar() {
-        const {showPlacesList} = this.state;
+        const {showPlacesList, searchKey} = this.state;
         return (
-            <div
-                id="place-search-bar"
-                className={showPlacesList ? 'active' : ''}
-            >
-                <input
-                    id="place-search"
-                    className={showPlacesList ? 'active' : ''}
-                    placeholder="Search city"
-                    onFocus={this._handleToggleSearch(true)}
-                    onChange={this._handleSearchChange}
-                    ref={(thisEl) => {this.placeQuery = thisEl}}
-                />
-                {
-                    showPlacesList
-                    ? (
-                        <span
-                            id="place-search-delete"
-                            className="fas fa-times animated fadeIn"
-                            onClick={this._handleSearchCancel}
-                        />
-                    ) : (
-                        <React.Fragment>
-                            <span
-                                id="place-search-lookup"
-                                className="fas fa-search animated fadeIn"
-                                onClick={() => {this.placeQuery.focus()}}
-                            />
-                            <CurrentPositionButton>
-                                <span
-                                    id="place-current-position"
-                                    className="fas fa-crosshairs animated fadeIn"
-                                    // onClick={() => {this.placeQuery.focus()}}
-                                />
-                            </CurrentPositionButton>
-                        </React.Fragment>
-                    )
-                }
-            </div>
+            <SearchBar
+                active={showPlacesList}
+                searchValue={searchKey}
+                onSearchToggle={this._handleSearchToggle}
+                onSearchChange={this._handleSearchChange}
+                onSearchClear={this._handleSearchClear}
+                onCurrentPositionClick={this._handleCurrentPositionClick}
+            />
         );
     };
 
@@ -141,7 +125,7 @@ class WeatherPage extends Component {
                     show={showPlacesList}
                     places={placePredictions}
                     onItemClick={this._handlePlaceSelected}
-                    onOutsideClick={this._handleToggleSearch(false)}
+                    onOutsideClick={this._handlePlaceListOutsideClick}
                 />
                 {this._renderWeatherContent()}
                 {this._renderTabs()}

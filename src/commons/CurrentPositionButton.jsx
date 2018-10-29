@@ -20,10 +20,11 @@ const BTN_STYLES = {
 class CurrentPositionButton extends React.Component {
 
     render() {
-        const {classes, children} = this.props;
+        const {classes, onClick, children} = this.props;
         return (
             <Button
                 className={classes.root}
+                onClick={onClick}
             >
                 {children}
             </Button>
@@ -33,7 +34,8 @@ class CurrentPositionButton extends React.Component {
 };
 
 CurrentPositionButton.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
 };
 
 export default withStyles(BTN_STYLES)(CurrentPositionButton);

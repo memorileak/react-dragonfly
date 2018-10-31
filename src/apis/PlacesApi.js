@@ -36,7 +36,7 @@ module.exports = (function() {
             });
         },
         getCoordsOfCurrentPosition: function(onDone) {
-            window.navigator.geolocation.getCurrentPosition(
+            navigator.geolocation.getCurrentPosition(
                 function(data) {
                     onDone({
                         longitude: data.coords.longitude,

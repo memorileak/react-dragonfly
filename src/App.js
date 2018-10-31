@@ -9,7 +9,11 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <Offline>
+                <Offline
+                    polling={{
+                        enabled: false
+                    }}
+                >
                     <div id="app-offline">
                         <i className="fas fa-exclamation-circle" />
                         <div className="app-offline-status">
@@ -20,7 +24,11 @@ class App extends Component {
                         </div>
                     </div>
                 </Offline>
-                <Online>
+                <Online
+                    polling={{
+                        enabled: false
+                    }}
+                >
                     <WeatherPage />
                 </Online>
             </React.Fragment>

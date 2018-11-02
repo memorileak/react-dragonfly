@@ -1,0 +1,17 @@
+#error-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#error-display > .container {
+    color: white;
+    text-align: center;
+    transform: translateY(-50%);
+}
+#error-display > .container > i {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+#error-display .error-display-message {
+    font-size: 15px;
+}

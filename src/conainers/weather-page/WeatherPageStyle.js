@@ -1,6 +1,7 @@
+import {INNER_HEIGHT} from '../../constants/InnerHeight';
 export const TABS_HEIGHT = 50;
 export const SEARCH_BAR_HEIGHT = 60;
-export const SLIDE_HEIGHT = window.innerHeight - TABS_HEIGHT - SEARCH_BAR_HEIGHT;
+export const SLIDE_HEIGHT = INNER_HEIGHT - TABS_HEIGHT - SEARCH_BAR_HEIGHT;
 export const TABS_STYLES = {
     tabsRootStyle: {
         color: 'white',

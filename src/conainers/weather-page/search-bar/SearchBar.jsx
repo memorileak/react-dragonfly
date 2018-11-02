@@ -15,7 +15,6 @@ class SearchBar extends React.Component {
 
     _handleToggleSearch(status) {
         return () => {
-            this.placeQuery.select();
             this.props.onSearchToggle(status);
         };
     };

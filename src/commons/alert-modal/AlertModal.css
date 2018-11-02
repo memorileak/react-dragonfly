@@ -1,0 +1,9 @@
+.alert-modal-title > h2 {
+    font-size: 17px;
+}
+.alert-modal-content > p {
+    font-size: 14px;
+}
+button.alert-modal-ok-button {
+    color: #2196f3;
+}

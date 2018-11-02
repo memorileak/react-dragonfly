@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import './App.css';
-import './assets/index';
 import {Offline, Online} from 'react-detect-offline';
 import WeatherPage from "./conainers/weather-page/WeatherPage";
 import ErrorDisplay from "./commons/error-display/ErrorDisplay";
 import {INNER_HEIGHT} from './constants/InnerHeight';
+import './App.css';
+import './assets/index';
 
 class App extends Component {
 

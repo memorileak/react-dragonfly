@@ -3,7 +3,7 @@
     height: 100%;
     position: absolute;
     top: 0;
-    background-color: #00000066;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
 }
 #empty-list-item {

@@ -3,13 +3,15 @@ import * as PropTypes from 'prop-types';
 import WeatherService from '../../../services/WeatherService';
 import {WEATHER_ICONS} from '../../../constants/WeatherIcon';
 import './CurrentWeather.css';
+import AlertModal from "../../../commons/alert-modal/AlertModal";
 
 class CurrentWeather extends  React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            isHaveError: false,
         };
     };
 
@@ -107,25 +109,40 @@ class CurrentWeather extends  React.Component {
         );
     };
 
+    _renderErrorAlert() {
+        const {isHaveError} = this.state;
+        return (
+            <AlertModal
+                open={isHaveError}
+                onClose={() => {this.setState({isHaveError: false})}}
+                title="Something went wrong !!!"
+                content="Sorry, we couldn't serve your request right now. Please try again later."
+            />
+        );
+    };
+
     render() {
         const {data} = this.state;
         if (data) {
             return (
-                <div
-                    id="cw-body"
-                    style={{height: this.props.height}}
-                    className="animated fadeIn"
-                >
-                    <div id="cw-panel1" className="cw-panel">
-                        <div>
-                            {this._renderTemerature()}
-                            {this._renderStatusAndCity()}
+                <React.Fragment>
+                    <div
+                        id="cw-body"
+                        style={{height: this.props.height}}
+                        className="animated fadeIn"
+                    >
+                        <div id="cw-panel1" className="cw-panel">
+                            <div>
+                                {this._renderTemerature()}
+                                {this._renderStatusAndCity()}
+                            </div>
+                        </div>
+                        <div id="cw-panel2" className="cw-panel">
+                            {this._renderInformations()}
                         </div>
                     </div>
-                    <div id="cw-panel2" className="cw-panel">
-                        {this._renderInformations()}
-                    </div>
-                </div>
+                    {this._renderErrorAlert()}
+                </React.Fragment>
             );
         } else {
             return null;

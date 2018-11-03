@@ -1,0 +1,19 @@
+.spinner-container {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.spinner {
+    animation-name: spinning;
+    animation-duration: 1.6s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes spinning {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -34,7 +34,7 @@ class AlertModal extends React.Component {
                         root: 'alert-modal-title'
                     }}
                 >
-                    {title}
+                    {title || ''}
                 </DialogTitle>
                 <DialogContent
                     classes={{
@@ -42,7 +42,7 @@ class AlertModal extends React.Component {
                     }}
                 >
                     <DialogContentText id="alert-dialog-description">
-                        {content}
+                        {content || ''}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

@@ -1,9 +1,9 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import WeatherService from '../../../services/WeatherService';
+import AlertModal from "../../../commons/alert-modal/AlertModal";
 import {WEATHER_ICONS} from '../../../constants/WeatherIcon';
 import './CurrentWeather.css';
-import AlertModal from "../../../commons/alert-modal/AlertModal";
 
 class CurrentWeather extends  React.Component {
 

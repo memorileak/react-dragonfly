@@ -3,6 +3,8 @@ module.exports = (function () {
     const fetchedCurrent = {};
     const fetchedFivedays  = {};
     const MS_PER_MINUTE = 6e4;
+    const MS_PER_SECOND = 1e3;
+    const DAYS_PER_WEEK = 7;
 
     function _produceKey(coords) {
         return JSON.stringify(coords);
@@ -31,9 +33,27 @@ module.exports = (function () {
         const timestamp = Date.now();
         const cacheValue = {
             data: data,
-            timestamp: timestamp
+            timestamp: timestamp,
         };
         storage[key] = cacheValue;
+    };
+
+    function _partitionForecastList(list) {
+        if (Array.isArray(list) && list.length > 0) {
+            const newList = [];
+            const offset = DAYS_PER_WEEK - (new Date(list[0].dt * MS_PER_SECOND)).getDay();
+            list.forEach((item) => {
+                const i = (offset + (new Date(item.dt * MS_PER_SECOND)).getDay()) % DAYS_PER_WEEK;
+                if (newList[i]) {
+                    newList[i].push(item);
+                } else {
+                    newList[i] = [item];
+                }
+            });
+            return newList;
+        } else {
+            return {};
+        }
     };
 
     function _getCurrentWeather(coords, onSuccess, onFail) {
@@ -62,6 +82,9 @@ module.exports = (function () {
             WeatherApi.getFivedaysForecast(coords)
                 .then((res) => {
                     if (res.data) {
+                        const {list} = res.data;
+                        const newList = _partitionForecastList(list);
+                        res.data.list = newList;
                         _cache(coords, res.data, fetchedFivedays);
                         onSuccess(res.data);
                     } else {

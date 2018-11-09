@@ -20,10 +20,3 @@ export const TABS_STYLES = {
         textTransform: 'none'
     }
 };
-export const SLIDE_STYLES = {
-    slide: {
-        padding: 15,
-        height: '100%',
-        color: 'white',
-    },
-};

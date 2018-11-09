@@ -39,3 +39,16 @@ body * {
 .text-center {
     text-align: center;
 }
+
+.scrollable-list {
+    overflow-y: scroll;
+}
+.scrollable-list::-webkit-scrollbar {
+    width: 0;
+}
+.scrollable-list::-webkit-scrollbar-track {
+    display: none;
+}
+.scrollable-list::-webkit-scrollbar-thumb {
+    display: none;
+}

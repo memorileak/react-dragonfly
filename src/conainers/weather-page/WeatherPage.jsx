@@ -7,8 +7,9 @@ import CurrentWeather from "./current-weather/CurrentWeather";
 import SearchBar from "./search-bar/SearchBar";
 import PlacesList from "./places-list/PlacesList";
 import PlacesApi from '../../apis/PlacesApi';
-import {TABS_STYLES, SLIDE_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
+import {TABS_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
 import './WeatherPage.css';
+import FivedaysWeather from "./fivedays-weather/FivedaysWeather";
 
 class WeatherPage extends Component {
 
@@ -162,7 +163,12 @@ class WeatherPage extends Component {
                     longitude={coords.longitude}
                     latitude={coords.latitude}
                 />
-                <div style={Object.assign({}, SLIDE_STYLES.slide, SLIDE_STYLES.slide2)}>Page 2</div>
+                <FivedaysWeather
+                    height={SLIDE_HEIGHT}
+                    active={activeTabIndex === 1}
+                    longitude={coords.longitude}
+                    latitude={coords.latitude}
+                />
             </SwipeableViews>
         );
     };

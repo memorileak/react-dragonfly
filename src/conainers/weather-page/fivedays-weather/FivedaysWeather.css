@@ -1,0 +1,54 @@
+#fw-body {
+    display: grid;
+    grid-template-rows: 10% 20% 70%;
+}
+.fw-panel {
+    margin: 0 15px;
+}
+#fw-panel1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#fw-panel2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+}
+#fw-panel3 {
+    background: var(--blue);
+    border-radius: 15px;
+}
+#fw-city-name {
+    color: white;
+    font-size: 18px;
+}
+.fw-brief-forecast-item {
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 15px;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    transition-duration: .2s;
+}
+.fw-brief-forecast-item.active {
+    background-color: var(--blue);
+}
+.fw-brief-week-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-transform: uppercase;
+}
+.fw-brief-weather-icon {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    color: white;
+    font-size: 25px;
+}
+.fw-detail-forecast-item {
+    height: 20%;
+}

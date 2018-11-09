@@ -1,12 +1,19 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import spinnerSource from '../../assets/images/spinner.png';
 import './Spinner.css';
 
 class Spinner extends React.Component {
 
     render() {
+        const {containerHeight} = this.props;
         return (
-            <div className="spinner-container">
+            <div
+                style={{
+                    height: containerHeight
+                }}
+                className="spinner-container"
+            >
                 <img 
                     src={spinnerSource} 
                     alt="spinner"
@@ -16,6 +23,13 @@ class Spinner extends React.Component {
         );
     };
 
+};
+
+Spinner.propTypes = {
+    containerHeight: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]).isRequired,
 };
 
 export default Spinner;

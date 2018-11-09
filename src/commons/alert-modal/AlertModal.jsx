@@ -16,7 +16,7 @@ class AlertModal extends React.Component {
     };
 
     _handleCloseAlert() {
-        setInterval(this.props.onClose, 200);
+        setTimeout(this.props.onClose, 200);
     };
 
     render() {

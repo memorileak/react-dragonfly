@@ -2,6 +2,8 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import WeatherService from '../../../services/WeatherService';
 import AlertModal from "../../../commons/alert-modal/AlertModal";
+import Spinner from "../../../commons/spinner/Spinner";
+import {SLIDE_HEIGHT} from '../../weather-page/WeatherPageStyle';
 import {WEATHER_ICONS} from '../../../constants/WeatherIcon';
 import './CurrentWeather.css';
 
@@ -12,14 +14,21 @@ class CurrentWeather extends  React.Component {
         this.state = {
             data: null,
             isHaveError: false,
+            isLoading: false,
         };
     };
 
     componentDidMount() {
         const {active, longitude, latitude} = this.props;
         if (active && longitude && latitude) {
+            this.setState({
+                isLoading: true,
+            });
             WeatherService.getCurrentWeather({longitude, latitude}, (data) => {
-                this.setState({data});
+                this.setState({
+                    data: data,
+                    isLoading: false,
+                });
             });
         }
     };
@@ -33,8 +42,14 @@ class CurrentWeather extends  React.Component {
                 || prevProps.latitude !== latitude
             )
         ) {
+            this.setState({
+                isLoading: true,
+            });
             WeatherService.getCurrentWeather({longitude, latitude}, (data) => {
-                this.setState({data});
+                this.setState({
+                    data: data,
+                    isLoading: false,
+                });
             });
         }
     };
@@ -121,26 +136,38 @@ class CurrentWeather extends  React.Component {
         );
     };
 
+    _renderBody() {
+        const {isLoading} = this.state;
+        return (
+            isLoading
+            ? (
+                <Spinner containerHeight={SLIDE_HEIGHT}/>
+            ) : (
+                <div
+                    id="cw-body"
+                    style={{height: this.props.height}}
+                    className="animated fadeIn"
+                >
+                    <div id="cw-panel1" className="cw-panel">
+                        <div>
+                            {this._renderTemerature()}
+                            {this._renderStatusAndCity()}
+                        </div>
+                    </div>
+                    <div id="cw-panel2" className="cw-panel">
+                        {this._renderInformations()}
+                    </div>
+                </div>
+            )
+        );
+    };
+
     render() {
         const {data} = this.state;
         if (data) {
             return (
                 <React.Fragment>
-                    <div
-                        id="cw-body"
-                        style={{height: this.props.height}}
-                        className="animated fadeIn"
-                    >
-                        <div id="cw-panel1" className="cw-panel">
-                            <div>
-                                {this._renderTemerature()}
-                                {this._renderStatusAndCity()}
-                            </div>
-                        </div>
-                        <div id="cw-panel2" className="cw-panel">
-                            {this._renderInformations()}
-                        </div>
-                    </div>
+                    {this._renderBody()}
                     {this._renderErrorAlert()}
                 </React.Fragment>
             );

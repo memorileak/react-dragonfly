@@ -8,7 +8,6 @@ import SearchBar from "./search-bar/SearchBar";
 import PlacesList from "./places-list/PlacesList";
 import PlacesApi from '../../apis/PlacesApi';
 import {TABS_STYLES, SLIDE_STYLES, SLIDE_HEIGHT} from './WeatherPageStyle';
-import '@fortawesome/fontawesome-free';
 import './WeatherPage.css';
 
 class WeatherPage extends Component {

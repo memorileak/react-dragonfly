@@ -29,6 +29,11 @@ class CurrentWeather extends  React.Component {
                     data: data,
                     isLoading: false,
                 });
+            }, () => {
+                this.setState({
+                    isLoading: false,
+                    isHaveError: true,
+                })
             });
         }
     };
@@ -50,6 +55,11 @@ class CurrentWeather extends  React.Component {
                     data: data,
                     isLoading: false,
                 });
+            }, () => {
+                this.setState({
+                    isLoading: false,
+                    isHaveError: true,
+                })
             });
         }
     };
@@ -137,12 +147,11 @@ class CurrentWeather extends  React.Component {
     };
 
     _renderBody() {
-        const {isLoading} = this.state;
-        return (
-            isLoading
-            ? (
-                <Spinner containerHeight={SLIDE_HEIGHT}/>
-            ) : (
+        const {isLoading, data} = this.state;
+        if (isLoading) {
+            return (<Spinner containerHeight={SLIDE_HEIGHT} />);
+        } else if (data) {
+            return (
                 <div
                     id="cw-body"
                     style={{height: this.props.height}}
@@ -158,22 +167,19 @@ class CurrentWeather extends  React.Component {
                         {this._renderInformations()}
                     </div>
                 </div>
-            )
-        );
-    };
-
-    render() {
-        const {data} = this.state;
-        if (data) {
-            return (
-                <React.Fragment>
-                    {this._renderBody()}
-                    {this._renderErrorAlert()}
-                </React.Fragment>
             );
         } else {
             return null;
         }
+    };
+
+    render() {
+        return (
+            <React.Fragment>
+                {this._renderBody()}
+                {this._renderErrorAlert()}
+            </React.Fragment>
+        );
     };
 
 };

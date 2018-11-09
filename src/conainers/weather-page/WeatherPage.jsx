@@ -35,6 +35,10 @@ class WeatherPage extends Component {
     componentDidMount() {
         PlacesApi.getCoordsOfCurrentPosition((coords) => {
             this.setState({coords});
+        }, () => {
+            this.setState({
+                coords: {}
+            })
         });
     };
 
@@ -45,6 +49,10 @@ class WeatherPage extends Component {
                     this.setState({
                         placePredictions: placePredictions
                     })
+                }, () => {
+                    this.setState({
+                        placePredictions: []
+                    });
                 });
             } else {
                 this.setState({
@@ -87,6 +95,8 @@ class WeatherPage extends Component {
     _handleCurrentPositionClick() {
         PlacesApi.getCoordsOfCurrentPosition((coords) => {
             this.setState({coords})
+        }, () => {
+            this.setState(({coords: {}}))
         });
     };
 
@@ -99,6 +109,8 @@ class WeatherPage extends Component {
     _handlePlaceSelected(place) {
         PlacesApi.getCoordsThroughGeocoding(place.place_id, (coords) => {
             this.setState({coords})
+        }, () => {
+            this.setState({coords: {}});
         });
         this.setState({
             searchKey: place.structured_formatting.main_text,

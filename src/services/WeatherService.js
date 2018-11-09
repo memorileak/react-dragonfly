@@ -2,10 +2,14 @@ module.exports = (function () {
     const WeatherApi = require('../apis/WeatherApi');
     const fetchedCurrent = {};
     const fetchedFivedays  = {};
-    const MS_PER_MINUTE = 60000;
+    const MS_PER_MINUTE = 6e4;
+
+    function _produceKey(coords) {
+        return JSON.stringify(coords);
+    };
 
     function _isCached(coords, storage) {
-        const key = JSON.stringify(coords);
+        const key = _produceKey(coords);
         const now = Date.now();
         if (
             storage[key]
@@ -18,12 +22,12 @@ module.exports = (function () {
     };
 
     function _getCachedData(coords, storage) {
-        const key = JSON.stringify(coords);
+        const key = _produceKey(coords);
         return storage[key] ? storage[key].data : null;
     };
 
     function _cache(coords, data, storage) {
-        const key = JSON.stringify(coords);
+        const key = _produceKey(coords);
         const timestamp = Date.now();
         const cacheValue = {
             data: data,
@@ -32,54 +36,46 @@ module.exports = (function () {
         storage[key] = cacheValue;
     };
 
-    function _getCurrentWeather(coords, onDone) {
+    function _getCurrentWeather(coords, onSuccess, onFail) {
         if (_isCached(coords, fetchedCurrent)) {
-            onDone(_getCachedData(coords, fetchedCurrent));
+            onSuccess(_getCachedData(coords, fetchedCurrent));
         } else {
             WeatherApi.getCurrentWeather(coords)
                 .then((res) => {
                     if (res.data) {
                         _cache(coords, res.data, fetchedCurrent);
-                        onDone(res.data);
+                        onSuccess(res.data);
                     } else {
-                        onDone(null);
+                        onSuccess(null);
                     }
                 }, (err) => {
                     console.error(err);
-                    onDone(null);
+                    onFail(err);
                 });
         }
     };
 
-    function _getFivedaysForecast(coords, onDone) {
+    function _getFivedaysForecast(coords, onSuccess, onFail) {
         if (_isCached(coords, fetchedFivedays)) {
-            onDone(_getCachedData(coords, fetchedFivedays));
+            onSuccess(_getCachedData(coords, fetchedFivedays));
         } else {
             WeatherApi.getFivedaysForecast(coords)
                 .then((res) => {
                     if (res.data) {
                         _cache(coords, res.data, fetchedFivedays);
-                        onDone(res.data);
+                        onSuccess(res.data);
                     } else {
-                        onDone(null);
+                        onSuccess(null);
                     }
                 }, (err) => {
                     console.error(err);
-                    onDone(null);
+                    onFail(err);
                 });
         }
     };
 
     return {
-        getCurrentWeather: function(coords, onDone) {
-            _getCurrentWeather(coords, (data) => {
-                onDone(data);
-            });
-        },
-        getFivedaysForecast: function(coords, onDone) {
-            _getFivedaysForecast(coords, (data) => {
-                onDone(data);
-            });
-        },
+        getCurrentWeather: _getCurrentWeather,
+        getFivedaysForecast: _getFivedaysForecast,
     };
 })();

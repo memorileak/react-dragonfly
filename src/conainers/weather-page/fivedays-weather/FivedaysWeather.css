@@ -51,4 +51,29 @@
 }
 .fw-detail-forecast-item {
     height: 20%;
+    display: grid;
+    grid-template-columns: 25% 41% 15% 17%;
+}
+.fw-detail-forecast-item > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.fw-detail-forecast-item > .fw-detail-hour {
+    font-size: 20px;
+}
+.fw-detail-forecast-item > .fw-detail-description {
+    justify-content: flex-start;
+    font-size: 15px;
+}
+.fw-detail-forecast-item > .fw-detail-temperature {
+    font-size: 25px;
+}
+.fw-detail-forecast-item > .fw-detail-weather-icon {
+    font-size: 30px;
+}
+.fw-detail-temperature > .fw-temperature-unit {
+    font-size: 15px;
+    height: 25px;
 }

@@ -19,7 +19,20 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Dragonfly</title>
+    <style>
+        .reclaim-location-btn {
+            height: 35px;
+            background-color: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        .reclaim-location-btn:active {
+            background-color: #3482cb;
+        }
+    </style>
 </head>
 <body>
 <noscript>
@@ -43,7 +56,15 @@
         //StartAppHere
     };
     function reclaim(){
-        //ReclaimLocationHere
+        const height = window.innerHeight;
+        document.getElementById('root').insertAdjacentHTML('afterbegin', `
+            <div style="height: ${height}px; width: 100%; display: flex; align-items: center; justify-content: center">
+                <div style="font-size: 15px; color: white; text-align: center">
+                    <p>Please allow location permission to run this app.</p>
+                    <button class="reclaim-location-btn" onclick="requireLocation()">Allow location</button>
+                </div>
+            </div>
+        `);
     };
     function requireLocation(){const perms=cordova.plugins.permissions;perms.requestPermission(perms.ACCESS_COARSE_LOCATION,function(sta){if(sta.hasPermission){runapp()}else{reclaim()}});};
     document.addEventListener("deviceready",requireLocation,false);

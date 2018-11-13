@@ -1,0 +1,65 @@
+#place-search-bar {
+    height: 100%;
+    position: relative;
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;
+}
+#place-search-bar.active {
+    background-color: var(--blue);
+}
+#place-search {
+    width: calc(100% - 60px);
+    margin: 15px 15px ;
+    height: 30px;
+    background-color: var(--blue);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0px 31px;
+    font-size: 15px;
+    color: white;
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;
+}
+#place-search::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+#place-search.active {
+    outline: none;
+    padding: 0px 16px;
+    margin-left: 0;
+    border-radius: 0;
+}
+#place-search-lookup {
+    color: white;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 23px;
+    top: calc(50% - 8px);
+}
+#place-current-position {
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#place-search-delete {
+    color: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 15px;
+    top: calc(50% - 8px);
+}
+#place-search-delete:active {
+    background-color: #0000001a;
+}

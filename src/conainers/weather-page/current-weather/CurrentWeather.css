@@ -1,0 +1,76 @@
+#cw-body {
+    display: grid;
+    grid-template-rows: 40% 60%;
+}
+.cw-panel {
+    margin: 0 15px;
+}
+#cw-panel1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#cw-panel2 {
+    background: var(--blue);
+    border-radius: 15px;
+    display: grid;
+    grid-template-rows: auto auto auto;
+}
+#cw-temperature {
+    color: white;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+#cw-temperature #temperature-value{
+    font-size: 80px;
+    font-weight: 300;
+}
+#cw-temperature > * {
+    line-height: 1;
+}
+#cw-temperature #unit {
+    font-size: 50px;
+    font-weight: 300;
+    margin-top: 5px;
+}
+#cw-weather-icon {
+    font-size: 50px;
+    color: white;
+}
+#cw-status-city {
+    color: white;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#cw-status-city > *:not(:first-child) {
+    margin-left: 10px;
+}
+#cw-city-name {
+    text-align: center;
+    font-size: 18px;
+    display: inline-block;
+    max-width: 120px;
+}
+#cw-detail-info {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+#cw-info-container {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+.cw-info {
+    color: white;
+    margin: 30px 0;
+    font-size: 15px;
+    display: grid;
+    grid-template-columns: 45% 45%;
+}
+.cw-info-title {
+    font-weight: 600;
+}

@@ -1,0 +1,9 @@
+#weather-page {
+    display: grid;
+    grid-template-rows: 60px auto;
+}
+#weather-page-content {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 50px;
+}

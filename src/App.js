@@ -1,55 +1,32 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+import {Offline, Online} from 'react-detect-offline';
+import WeatherPage from "./conainers/weather-page/WeatherPage";
+import ErrorDisplay from "./commons/error-display/ErrorDisplay";
+import {INNER_HEIGHT} from './constants/InnerHeight';
 import './App.css';
+import './assets/index';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            coords: null
-        };
-        this._getCurrentCoords = this._getCurrentCoords.bind(this);
-    };
-
-    _getCurrentCoords() {
-        navigator.geolocation.getCurrentPosition((data) => {
-            this.setState({
-                coords: data.coords
-            });
-        }, (err) => {
-            console.error(err);
-        });
-    };
-
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <button
-                        id="location-button"
-                        onClick={this._getCurrentCoords}
-                    >
-                        Know your location
-                    </button>
-                    {
-                        this.state.coords !== null
-                        ? (
-                            <div id="result-display">
-                                <div>
-                                    Longitude: {this.state.coords.longitude}
-                                </div>
-                                <div>
-                                    Latitude: {this.state.coords.latitude}
-                                </div>
-                            </div>
-                        ) : null
-                    }
-                </header>
-            </div>
+            <React.Fragment>
+                <Offline polling={{enabled: false}}>
+                    <ErrorDisplay
+                        height={INNER_HEIGHT}
+                        faIcon="fa-wifi-slash"
+                        messages={[
+                            "You are offline right now!",
+                            "Please allow network connection to run this app."
+                        ]}
+                    />
+                </Offline>
+                <Online polling={{enabled: false}}>
+                    <WeatherPage />
+                </Online>
+            </React.Fragment>
         );
-    }
+    };
 }
 
 export default App;

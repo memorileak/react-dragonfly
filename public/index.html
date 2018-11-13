@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,22 +19,55 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <title>Dragonfly</title>
+    <style>
+        .reclaim-location-btn {
+            height: 35px;
+            background-color: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        .reclaim-location-btn:active {
+            background-color: #3482cb;
+        }
+    </style>
+</head>
+<body>
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+<div id="root"></div>
+<!--
+  This HTML file is a template.
+  If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  You can add webfonts, meta tags, or analytics to this file.
+  The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  To begin the development, run `npm start` or `yarn start`.
+  To create a production bundle, use `npm run build` or `yarn build`.
+-->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwumYwzS9m8f2ZkXYoOWxBl77orY_ckXM&libraries=places"></script>
+<script>
+    function runapp(){
+        //StartAppHere
+    };
+    function reclaim(){
+        const height = window.innerHeight;
+        document.getElementById('root').insertAdjacentHTML('afterbegin', `
+            <div style="height: ${height}px; width: 100%; display: flex; align-items: center; justify-content: center">
+                <div style="font-size: 15px; color: white; text-align: center">
+                    <p>Please allow location permission to run this app.</p>
+                    <button class="reclaim-location-btn" onclick="requireLocation()">Allow location</button>
+                </div>
+            </div>
+        `);
+    };
+    function requireLocation(){const perms=cordova.plugins.permissions;perms.requestPermission(perms.ACCESS_COARSE_LOCATION,function(sta){if(sta.hasPermission){runapp()}else{reclaim()}});};
+    document.addEventListener("deviceready",requireLocation,false);
+</script>
+</body>
 </html>

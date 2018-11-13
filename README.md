@@ -1,2 +1,6 @@
-# This is Dragonfly app
-To help you get current weather and the forecast of the next 5 days.
+# Dragonfly
+Ứng dung giúp bạn xem thời tiết hiện tại và dự báo thời tiết cho 5 ngày tới.
+
+Build:\
+`npm run build`\
+`cordova run android`

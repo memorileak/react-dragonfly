@@ -108,7 +108,7 @@ class FivedaysWeather extends  React.Component {
                                     {TimeUtils.getDayOfWeek(MS_PER_SECOND * item[mid].dt)}
                                 </div>
                                 <div className="fw-brief-weather-icon">
-                                    <i className={`wi ${WEATHER_ICONS[item[mid].weather[0].icon]}`} />
+                                    <img alt="weather-icon" src={WEATHER_ICONS[item[mid].weather[0].icon]} />
                                 </div>
                             </div>
                         );
@@ -145,7 +145,7 @@ class FivedaysWeather extends  React.Component {
                                 <span className="fw-temperature-unit">&#x2103;</span>
                             </div>
                             <div className="fw-detail-weather-icon">
-                                <i className={`wi ${WEATHER_ICONS[item.weather[0].icon]}`} />
+                                <img alt="weather-icon" src={WEATHER_ICONS[item.weather[0].icon]} />
                             </div>
                         </div>
                     ))

@@ -78,7 +78,7 @@ class CurrentWeather extends  React.Component {
         const {data} = this.state;
         return (
             <div id="cw-status-city">
-                <i id="cw-weather-icon" className={`wi ${WEATHER_ICONS[data.weather[0].icon]}`} />
+                <img id="cw-weather-icon" alt="weather-icon" src={WEATHER_ICONS[data.weather[0].icon]} />
                 <span id="cw-city-name">{data.name}</span>
             </div>
         );

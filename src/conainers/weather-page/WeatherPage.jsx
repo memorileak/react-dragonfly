@@ -45,21 +45,26 @@ class WeatherPage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchKey !== this.state.searchKey) {
-            if (this.state.searchKey) {
-                PlacesApi.getPlacePredictions(this.state.searchKey, (placePredictions) => {
-                    this.setState({
-                        placePredictions: placePredictions
-                    })
-                }, () => {
+            if (this.searchTimeout) {
+                clearTimeout(this.searchTimeout);
+            }
+            this.searchTimeout = setTimeout(() => {
+                if (this.state.searchKey) {
+                    PlacesApi.getPlacePredictions(this.state.searchKey, (placePredictions) => {
+                        this.setState({
+                            placePredictions: placePredictions
+                        })
+                    }, () => {
+                        this.setState({
+                            placePredictions: []
+                        });
+                    });
+                } else {
                     this.setState({
                         placePredictions: []
                     });
-                });
-            } else {
-                this.setState({
-                    placePredictions: []
-                });
-            }
+                }
+            }, 250);
         }
     };
 

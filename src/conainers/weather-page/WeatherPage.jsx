@@ -64,7 +64,7 @@ class WeatherPage extends Component {
                         placePredictions: []
                     });
                 }
-            }, 250)
+            }, 250);
         }
     };
 
